@@ -1,0 +1,19 @@
+n/bash
+
+read -p "Enter the Package Name" pkg
+isAvailable=`sudo dnf info $pkg 2> /dev/null | grep -i "^Available Packages"`
+isInstalled=`sudo dnf info $pkg 2> /dev/null | grep -i "^Installed Packages"`
+
+if [[ -z $isInstalled ]] && [[ -z $isAvailable ]];
+then
+        echo "Enter the correct Package Name"
+elif [[ -n $isInstalled ]];
+  then
+        echo "Package is Already Installed"
+else
+
+        echo "please wait Installing the $pkg "
+        #installing the package 
+        sudo dnf install $pkg -y &>> /dev/null
+        echo "$pkg installed success fully !!!"
+fi
